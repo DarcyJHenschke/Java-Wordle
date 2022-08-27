@@ -1,8 +1,12 @@
 package javaWordle;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class Main {
 
@@ -10,7 +14,7 @@ public class Main {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws JSONException, IOException {
 		
 		
 		
@@ -18,7 +22,8 @@ public class Main {
 		String randomStr = list.getRandomWord();
 		System.out.println(randomStr);
 		String queryStr = String.format("https://api.dictionaryapi.dev/api/v2/entries/en/%s", randomStr);
-		String queryResult = Api.getUrlContents(queryStr);
+		JSONArray json = Api.readJsonFromUrl(queryStr);
+		String definition = json.getJSONObject(0).getJSONArray("meanings").getJSONObject(0).getJSONArray("definitions").getJSONObject(0).getString("definition");
 		
 		
 		
@@ -47,7 +52,7 @@ public class Main {
 			}
 			if (LetterCheck.Y(randomStr, attempt1) == true) {
 				System.out.println(randomStr + " is the correct word, Congratulations");
-				System.out.println(queryResult);
+				System.out.println(String.format("Definition: %s", definition));
 		
 				
 				return;
