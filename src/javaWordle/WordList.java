@@ -245,6 +245,8 @@ public class WordList {
 		// TODO Auto-generated constructor stub
 	}
 	
+//	this method gets a random index out of the above array
+//	it does this by generating a random number between the first and last index 
 	public String getRandomWord() {
 		int random = ThreadLocalRandom.current().nextInt(0, 236);
 		return list[random];
